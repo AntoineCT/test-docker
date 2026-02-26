@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <section class="products">
+        <?php foreach($products as $product): ?>
+            <div class="products-card">
+                <img src="<?= $product['image'] ?>" alt="image produit <?= $product['name'] ?>">
+                <div class="products-card-content">
+                    <h2><?= $product['name'] ?></h2>
+                    <p><?= $product['description'] ?></p>
+                </div>
+                <p><?= $product['price'] ?> €</p>
+                <a href="#" class="btn">ajouter au panier</a>
+            </div>
+        <?php endforeach; ?>
+    </section>
+</body>
+</html>
