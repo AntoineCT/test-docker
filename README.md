@@ -1,6 +1,6 @@
 ## Pour installé et démarré le serveur
 
-# dans un CMD :
+# dans un CMD à l'emplacement du dossier du repository:
 
 ```bash
 docker build -t test-cours:version3 .
