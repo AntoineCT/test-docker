@@ -40,3 +40,4 @@ $products = [
 ];
 
 include("./template/index.phtml");
+include("./model/connexion.php");
