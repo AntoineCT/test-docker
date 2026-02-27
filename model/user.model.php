@@ -24,22 +24,26 @@ function getUserById($id)
 function loginUser($pseudo, $mdp)
 {
     $conn = connexionBDD();
-    $stmt = $conn->prepare("SELECT * FROM user WHERE pseudo=:pseudo AND mdp=:mdp;");
+    $stmt = $conn->prepare("SELECT * FROM user WHERE pseudo=:pseudo;");
     $stmt->execute([
-        ':pseudo' => $pseudo,
-        ':mdp' => $mdp
+        ':pseudo' => $pseudo
     ]);
     $users = $stmt->fetchAll();
-    return count($users) > 0 ? $users[0] : false;
+    
+    if (count($users) > 0 && password_verify($mdp, $users[0]['mdp'])) {
+        return $users[0];
+    }
+    return false;
 }
 
 function addUser($pseudo, $mdp)
 {
     $conn = connexionBDD();
+    $mdp_hashed = password_hash($mdp, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("INSERT INTO user (pseudo,mdp) VALUES(:pseudo,:mdp);");
     $stmt->execute([
         ':pseudo' => $pseudo,
-        ':mdp' => $mdp
+        ':mdp' => $mdp_hashed
     ]);
     return true;
 }
@@ -47,11 +51,12 @@ function addUser($pseudo, $mdp)
 function updateUser($id, $pseudo, $mdp)
 {
     $conn = connexionBDD();
+    $mdp_hashed = password_hash($mdp, PASSWORD_DEFAULT);
     $stmt = $conn->prepare("UPDATE user SET pseudo=:pseudo, mdp=:mdp WHERE id=:id;");
     $stmt->execute([
         ':id' => $id,
         ':pseudo' => $pseudo,
-        ':mdp' => $mdp
+        ':mdp' => $mdp_hashed
     ]);
 }
 

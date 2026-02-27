@@ -16,6 +16,7 @@
                     <li><a href="?page=addproduct">Ajouter un produit</a></li>
                     <li><a href="?page=updateproduct">Modifier un produit</a></li>
                     <li><a href="?page=deleteproduct">Supprimer un produit</a></li>
+                    <li><span>Bienvenue <?= htmlspecialchars($_SESSION['user_pseudo']) ?></span></li>
                     <li><a href="?page=logout">Déconnexion</a></li>
                 <?php endif; ?>
             </ul>
