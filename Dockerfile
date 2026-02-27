@@ -7,10 +7,11 @@ RUN cat > /entrypoint.sh << 'EOF'
 set -e
 service apache2 start
 service mysql start
-sleep 2
+sleep 10
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS shop;"
 mysql -u root shop -e "CREATE TABLE IF NOT EXISTS product (id INT AUTO_INCREMENT PRIMARY KEY, image VARCHAR(255), name VARCHAR(255), description TEXT, price DECIMAL(10,2));"
 mysql -u root shop -e "CREATE TABLE IF NOT EXISTS user (id INT AUTO_INCREMENT PRIMARY KEY, pseudo VARCHAR(255), mdp VARCHAR(255));"
+mysql -u root shop -e "INSERT INTO user (pseudo, mdp) VALUES ('admin', 'admin123'), ('test', 'test123');"
 tail -f /dev/null
 EOF
 
