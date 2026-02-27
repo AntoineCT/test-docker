@@ -8,10 +8,20 @@ include("./model/user.model.php");
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'addproduct') {
-    $image = $_FILES['image']['name'] ?? '';
+    $image = '';
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
     $price = $_POST['price'] ?? '';
+    
+    // Handle image upload
+    if ($_FILES['image']['name'] != '') {
+        $target_dir = "./assets/images/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $image = $target_dir . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $image);
+    }
     
     if (!empty($name) && !empty($description) && !empty($price)) {
         if (addProduct($image, $name, $description, $price)) {
@@ -23,10 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'addproduct') {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'updateproduct') {
     $id = $_POST['product_id'] ?? '';
-    $image = $_FILES['image']['name'] ?? '';
+    $image = '';
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
     $price = $_POST['price'] ?? '';
+    
+    if ($_FILES['image']['name'] != '') {
+        $target_dir = "./assets/images/";
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+        $image = $target_dir . basename($_FILES['image']['name']);
+        move_uploaded_file($_FILES['image']['tmp_name'], $image);
+    }
     
     if (!empty($id) && !empty($name) && !empty($description) && !empty($price)) {
         if (updateProduct($id, $image, $name, $description, $price)) {
