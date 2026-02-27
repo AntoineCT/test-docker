@@ -8,7 +8,6 @@ docker run -di --name server-lamp -p 8080:80 -v "%cd%:/var/www/html" test-cours:
 ```
 
 - Site web: http://localhost:8080/
-- PhpMyAdmin: http://localhost:8080/phpmyadmin/
 
 ## Pour l'arrêté
 
