@@ -7,7 +7,7 @@ body {
 nav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 10px 20px;
   border-bottom: solid 1px black;
@@ -17,10 +17,17 @@ nav ul {
   display: flex;
   flex-direction: row;
   gap: 1rem;
+  width: 100%;
 }
 
 nav ul li {
   list-style: none;
+}
+
+nav ul li.nav-right {
+  margin-left: auto;
+  margin-right: 1rem;
+  color: green;
 }
 
 nav ul li a {
@@ -152,4 +159,132 @@ form textarea {
   padding: 10px;
   border: solid 1px green;
   border-radius: 20px;
+}
+
+#burger-menu {
+  cursor: pointer;
+  height: 27px;
+  width: 27px;
+  margin: 20px;
+  overflow: visible;
+  position: absolute;
+  right: 0;
+  z-index: 3;
+  display: none;
+}
+
+#burger-menu span,
+#burger-menu span:before,
+#burger-menu span:after {
+  background: #000;
+  display: block;
+  height: 3px;
+  opacity: 1;
+  position: absolute;
+  transition: 0.3s ease-in-out;
+}
+
+#burger-menu span:before,
+#burger-menu span:after {
+  content: "";
+}
+
+#burger-menu span:before {
+  left: 0px;
+  top: -10px;
+  width: 27px;
+}
+
+#burger-menu span {
+  right: 0px;
+  top: 13px;
+  width: 27px;
+}
+
+#burger-menu span:after {
+  left: 0px;
+  top: 10px;
+  width: 27px;
+}
+
+#burger-menu.close span:before {
+  top: 0px;
+  transform: rotate(90deg);
+  width: 27px;
+}
+
+#burger-menu.close span {
+  transform: rotate(-45deg);
+  top: 13px;
+  width: 27px;
+}
+
+#burger-menu.close span:after {
+  top: 0px;
+  left: 0;
+  transform: rotate(90deg);
+  opacity: 0;
+  width: 0;
+}
+
+#menu {
+  z-index: 2;
+  min-width: 100%;
+  min-height: 100%;
+  position: fixed;
+  top: 0;
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+  text-align: center;
+  padding-top: 100px;
+  transition: all 0.3s ease-in-out;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+#menu.overlay {
+  visibility: visible;
+  opacity: 1;
+  height: 100vh;
+}
+
+#menu ul {
+  padding: 0;
+  list-style: none;
+}
+
+#menu li {
+  list-style: none;
+  margin: 20px 0;
+}
+
+#menu a {
+  color: #fff;
+  display: block;
+  font-size: 24px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#menu a:hover {
+  color: #007bff;
+}
+
+#menu span {
+  color: #fff;
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
+  #burger-menu {
+    display: block;
+  }
+
+  nav {
+    padding-bottom: 20px;
+  }
+
+  .nav-desktop {
+    display: none !important;
+  }
 }

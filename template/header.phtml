@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
     <header>
         <nav>
+            <ul class="nav-desktop">
+                <li><a href="?page=home">Accueil</a></li>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <li><a href="?page=signin">Inscription</a></li>
+                    <li><a href="?page=login">Connexion</a></li>
+                <?php else: ?>
+                    <li><a href="?page=addproduct">Ajouter un produit</a></li>
+                    <li><a href="?page=updateproduct">Modifier un produit</a></li>
+                    <li><a href="?page=deleteproduct">Supprimer un produit</a></li>
+                    <li class="nav-right"><span>Bienvenue <?= htmlspecialchars($_SESSION['user_pseudo']) ?></span></li>
+                    <li><a href="?page=logout">Déconnexion</a></li>
+                <?php endif; ?>
+            </ul>
+
+            <div id="burger-menu">
+                <span></span>
+            </div>
+        </nav>
+
+        <div id="menu">
             <ul>
                 <li><a href="?page=home">Accueil</a></li>
                 <?php if (!isset($_SESSION['user_id'])): ?>
@@ -20,7 +41,8 @@
                     <li><a href="?page=logout">Déconnexion</a></li>
                 <?php endif; ?>
             </ul>
-        </nav>
+        </div>
     </header>
+    <script src="assets/js/burger.js"></script>
 </body>
 </html>
