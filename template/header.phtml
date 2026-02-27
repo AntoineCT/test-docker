@@ -8,8 +8,16 @@
     <header>
         <nav>
             <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="#">Produits</a></li>
+                <li><a href="?page=home">Accueil</a></li>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <li><a href="?page=signin">Inscription</a></li>
+                    <li><a href="?page=login">Connexion</a></li>
+                <?php else: ?>
+                    <li><a href="?page=addproduct">Ajouter un produit</a></li>
+                    <li><a href="?page=updateproduct">Modifier un produit</a></li>
+                    <li><a href="?page=deleteproduct">Supprimer un produit</a></li>
+                    <li><a href="?page=logout">Déconnexion</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>

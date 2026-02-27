@@ -1,43 +1,100 @@
 <?php
 
-$products = [
-    [
-        "image" => "assets/images/product-placeholder.jpg",
-        "name" => "Produit 1",
-        "description" => "Description du produit 1",
-        "price" => 19.99
-    ],
-    [
-        "image" => "assets/images/product-placeholder.jpg",
-        "name" => "Produit 2",
-        "description" => "Description du produit 2",
-        "price" => 29.99
-    ],
-    [
-        "image" => "assets/images/product-placeholder.jpg",
-        "name" => "Produit 3",
-        "description" => "Description du produit 3",
-        "price" => 39.99
-    ],
-    [
-        "image" => "assets/images/product-placeholder.jpg",
-        "name" => "Produit 4",
-        "description" => "Description du produit 4",
-        "price" => 49.99
-    ],
-    [
-        "image" => "assets/images/product-placeholder.jpg",
-        "name" => "Produit 5",
-        "description" => "Description du produit 5",
-        "price" => 59.99
-    ],
-    [
-        "image" => "assets/images/product-placeholder.jpg",
-        "name" => "Produit 6",
-        "description" => "Description du produit 6",
-        "price" => 69.99
-    ]
-];
+session_start();
 
-include("./template/index.phtml");
-include("./model/connexion.php");
+include("./model/shop.model.php");
+include("./model/user.model.php");
+
+$page = isset($_GET['page']) ? $_GET['page'] : 'home';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'addproduct') {
+    $image = $_FILES['image']['name'] ?? '';
+    $name = $_POST['name'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $price = $_POST['price'] ?? '';
+    
+    if (!empty($name) && !empty($description) && !empty($price)) {
+        if (addProduct($image, $name, $description, $price)) {
+            header('Location: ?page=home');
+            exit();
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'updateproduct') {
+    $id = $_POST['product_id'] ?? '';
+    $image = $_FILES['image']['name'] ?? '';
+    $name = $_POST['name'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $price = $_POST['price'] ?? '';
+    
+    if (!empty($id) && !empty($name) && !empty($description) && !empty($price)) {
+        if (updateProduct($id, $image, $name, $description, $price)) {
+            header('Location: ?page=home');
+            exit();
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'deleteproduct') {
+    $id = $_POST['product_id'] ?? '';
+    if (!empty($id)) {
+        if (deleteProduct($id)) {
+            header('Location: ?page=home');
+            exit();
+        }
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'signin') {
+    $pseudo = $_POST['pseudo'] ?? '';
+    $mdp = $_POST['mdp'] ?? '';
+
+    if(!empty($pseudo) && !empty($mdp)) {
+        if(addUser($pseudo, $mdp)) {
+            header('Location: ?page=login');
+            exit();
+        }
+    }
+}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && $page == 'login') {
+    $pseudo = $_POST['pseudo'] ?? '';
+    $mdp = $_POST['mdp'] ?? '';
+
+    if(!empty($pseudo) && !empty($mdp)) {
+        $user = loginUser($pseudo, $mdp);
+        if($user) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_pseudo'] = $user['pseudo'];
+            header('Location: ?page=home');
+            exit();
+        } else {
+            $error = "Identifiants incorrects";
+        }
+    }
+}
+
+if ($page == 'logout') {
+    session_destroy();
+    header('Location: ?page=home');
+    exit();
+}
+
+$products = getAllProducts();
+
+if ($page == 'addproduct') {
+    include("./template/addproduct.phtml");
+} else if ($page == 'updateproduct') {
+    include("./template/updateproduct.phtml");
+} else if ($page == 'deleteproduct') {
+    include("./template/deleteproduct.phtml");
+} else if ($page == 'signin') {
+    include("./template/signin.phtml");
+} else if ($page == 'login') {
+    include("./template/login.phtml");
+} else if ($page == 'logout') {
+    include("./template/logout.phtml");
+} else {
+    include("./template/index.phtml");
+}

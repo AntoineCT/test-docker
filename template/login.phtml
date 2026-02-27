@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Connexion</title>
+</head>
+<body>
+    <?php include("./template/header.phtml"); ?>
+
+    <form action="?page=login" method="post">
+        <label for="pseudo">Votre pseudo :</label>
+        <input type="text" id="pseudo" name="pseudo" required>
+        <br>
+        <label for="password">Votre mot de passe :</label>
+        <input type="password" id="mdp" name="mdp" required>
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <?php include("./template/footer.phtml"); ?>
+</body>
+</html>
